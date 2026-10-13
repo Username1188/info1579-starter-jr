@@ -10,11 +10,6 @@
 // TODO: Import "use strict" directive
 "use strict";
 
-// DO NOT MODIFY
-//const display = (label, value) =>
-//  (document.getElementById("output").innerHTML += `${label}: ${value}<br>`);
-// END DO NOT MODIFY
-
 // ADD YOUR CODE BELOW
 //global functions
 function calculatePercentComplete(completed, total){
@@ -153,27 +148,52 @@ const applyDashboardColor = (percentComplete) => {
 //generates dashboard
 const generateDashboard = () => {
   //inital display cause remainingModulesList id doesnt exist
-  displayDashboard("", "",0,0,0,0,"","","","");
+  try {  
+    displayDashboard("", "",0,0,0,0,"","","","");
 
-  const studentName = studentNameInput.value;
-  const completedModules = completedModulesInput.value;
+    const studentName = studentNameInput.value;
+    const completedModules = completedModulesInput.value;
 
-  const percentComplete = calculatePercentComplete(completedModulesInput.value, courseModules.length);
-  const percentRemaining = 100 - percentComplete;
+    const percentComplete = calculatePercentComplete(completedModulesInput.value, courseModules.length);
+    const percentRemaining = 100 - percentComplete;
 
-  //study day based on grade or user input
-  let studyDay; 
-  percentComplete == 100 ? studyDay = "Complete" : studyDay = studyDayInput.value;
+    //study day based on grade or user input
+    let studyDay; 
+    percentComplete == 100 ? studyDay = "Complete" : studyDay = studyDayInput.value;
 
-  const grade = getCourseGrade(percentComplete);
-  const progress = getCourseProgress(percentRemaining);
-  const studyPlan = getStudyPlan(studyDay);
+    const grade = getCourseGrade(percentComplete);
+    const progress = getCourseProgress(percentRemaining);
+    const studyPlan = getStudyPlan(studyDay);
 
-  displayDashboard(studentName, courseModules, completedModules, totalStudyHours, percentComplete, 
-    percentRemaining, grade, progress, studyDay, studyPlan);
+    //finally catch errors
+    console.log("name: " + studentName);
+    console.log("completed moduals: " + completedModules);
+    console.log("name: " + studyDay);
 
-  applyDashboardColor(percentComplete);
-  displayRemainingModules(completedModules);
+    validateInputs(studentName,completedModules,studyDay);
+
+
+    displayDashboard(studentName, courseModules, completedModules, totalStudyHours, percentComplete, 
+      percentRemaining, grade, progress, studyDay, studyPlan);
+
+    applyDashboardColor(percentComplete);
+    displayRemainingModules(completedModules);
+    
+  } catch (error) {
+
+    output.innerHTML = `
+
+       <div class="dashboard-card">
+
+          <h2>Error</h2>
+
+          <ul>${error.message}</ul>
+
+       </div>`;
+
+     output.style.backgroundColor = "#f8d7da";
+
+  }
 }
 
 //display dashboard helper function
@@ -217,6 +237,45 @@ const resetDashboard = () => {
   completedModulesInput.value = 0;
 }
 
+//error checking inputs
+const validateInputs = (studentName, completedModules, studyDay) => {
+  let errors = []
+
+  //empty name
+  if (studentName.trim() === "") {
+   errors.push(`<li>Please enter a name.</li>`);
+  }
+  //moduales out of range
+  if ((completedModules < 0 ) || (completedModules > 10)) {
+    errors.push(`<li>Completed modules must be between 0 and 10.</li>`);
+  }
+  //empty study day
+  if (studyDay.trim() === "") {
+   errors.push(`<li>Please select a study day.</li>`);
+  }
+
+  if (errors.length > 0) {
+
+    throw new Error(errors.join(""));
+
+  }
+}
+
 //events
 generateButton.addEventListener("click", generateDashboard);
 resetButton.addEventListener("click", resetDashboard);
+
+//unit tests
+const runUnitTests = () => {
+  console.assert(getCourseGrade(90) === "A", "A failed");
+  console.assert(getCourseGrade(80) === "B", "B failed");
+  console.assert(getCourseGrade(70) === "C", "C failed");
+  console.assert(getCourseGrade(60) === "D", "D failed");
+  console.assert(getCourseGrade(50) === "F", "F failed");
+
+  console.assert(getCourseProgress(0) === "Finished!", "course prgress 0 failed")
+  console.assert(getCourseProgress(101) === "Invalid entry.", "invalid entry course progress failed")
+  console.assert(getStudyPlan("") === "no plan", "empty plan failed");
+  console.assert(getStudyPlan("Complete") === "Course Completed!", "complete plan failed");
+  console.assert(calculatePercentComplete(completedModulesInput.value, courseModules.length) === 0, "percent comp failed");
+}
