@@ -11,6 +11,7 @@
 "use strict";
 
 // ADD YOUR CODE BELOW
+
 //global functions
 function calculatePercentComplete(completed, total){
   return ((completed / total) * 100);
@@ -20,7 +21,44 @@ function calculateStudyHours(modules, hoursPerModule = 6){
   return modules * hoursPerModule;
 }
 
+//api functions
+async function getJoke() {
+  const response = await fetch("https://official-joke-api.appspot.com/random_joke");
+  const data = await response.json();
+  return data;
+}
+
+async function displayJoke() {
+  try {
+    jokeContainer.innerHTML = "Loading joke...";
+    const joke = await getJoke();
+
+    jokeContainer.innerHTML = `
+      <p>${joke.setup}</p>
+      <p>${joke.punchline}</p>`;
+
+  } catch(error) {
+    jokeContainer.innerHTML = `Unable to load joke.`;
+  }
+}
+
+async function getQuote() {
+  const url = "https://dummyjson.com/quotes/random";
+  const response = await fetch(url);
+  const data = response.json();
+  return data;
+}
+
+async function displayQuote() {
+  quoteContainer.innerHTML = "Loading quote...";
+  const quote = await getQuote();
+
+  quoteContainer.innerHTML = `${quote.quote}`
+}
+
 //document elements
+const jokeContainer = document.getElementById("jokeContainer");
+const quoteContainer = document.getElementById("quoteContainer");
 const studentNameInput = document.getElementById("studentName");
 const completedModulesInput = document.getElementById("completedModules");
 const studyDayInput = document.getElementById("studyDay");
@@ -279,3 +317,6 @@ const runUnitTests = () => {
   console.assert(getStudyPlan("Complete") === "Course Completed!", "complete plan failed");
   console.assert(calculatePercentComplete(completedModulesInput.value, courseModules.length) === 0, "percent comp failed");
 }
+
+displayJoke();
+displayQuote();
