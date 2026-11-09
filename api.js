@@ -1,10 +1,11 @@
 const jokeContainer = document.getElementById("jokeContainer");
 const quoteContainer = document.getElementById("quoteContainer");
 
-
 //joke
 export async function getJoke() {
-  const response = await fetch("https://official-joke-api.appspot.com/random_joke");
+  const response = await fetch(
+    "https://official-joke-api.appspot.com/random_joke",
+  );
   const data = await response.json();
   return data;
 }
@@ -17,8 +18,7 @@ export async function displayJoke() {
     jokeContainer.innerHTML = `
       <p>${joke.setup}</p>
       <p>${joke.punchline}</p>`;
-
-  } catch(error) {
+  } catch (error) {
     jokeContainer.innerHTML = `Unable to load joke.`;
   }
 }
@@ -35,5 +35,5 @@ export async function displayQuote() {
   quoteContainer.innerHTML = "Loading quote...";
   const quote = await getQuote();
 
-  quoteContainer.innerHTML = `${quote.quote}`
+  quoteContainer.innerHTML = `${quote.quote}`;
 }

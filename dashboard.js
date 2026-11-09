@@ -3,10 +3,21 @@ export const resetDashboard = () => {
   studyDayInput.value = "";
   output.innerHTML = "";
   completedModulesInput.value = 0;
-}
+};
 
-export const displayDashboard = (studentName, courseModules, completedModules, totalStudyHours, percentComplete, 
-  percentRemaining, grade, progress, studyDay, studyPlan, remainingHours) => {
+export const displayDashboard = (
+  studentName,
+  courseModules,
+  completedModules,
+  totalStudyHours,
+  percentComplete,
+  percentRemaining,
+  grade,
+  progress,
+  studyDay,
+  studyPlan,
+  remainingHours,
+) => {
   output.innerHTML = `
           <div class="dashboard-card">
 
@@ -37,7 +48,7 @@ export const displayDashboard = (studentName, courseModules, completedModules, t
             <p><strong>Remaining Modules</strong><div id="remainingModulesList"></div></p>
 
         </div>`;
-}
+};
 
 //helper function for displayRemainingModules
 export const displayModules = (modules) => {
@@ -51,14 +62,20 @@ export const displayModules = (modules) => {
   }
 
   return list;
-}
+};
 
 export const displayRemainingModules = (remainingModules) => {
-  document.getElementById("remainingModulesList").appendChild(displayModules(remainingModules));
-}
+  document
+    .getElementById("remainingModulesList")
+    .appendChild(displayModules(remainingModules));
+};
 
 export const applyDashboardColor = (percentComplete) => {
-  if (percentComplete >= 75) {output.style.backgroundColor = "#c3ebcc";}
-  else if (percentComplete >= 25) {output.style.backgroundColor = "#fff3cd";}
-  else {output.style.backgroundColor = "#f3afb4"}
-}
+  if (percentComplete >= 75) {
+    output.style.backgroundColor = "#c3ebcc";
+  } else if (percentComplete >= 25) {
+    output.style.backgroundColor = "#fff3cd";
+  } else {
+    output.style.backgroundColor = "#f3afb4";
+  }
+};
