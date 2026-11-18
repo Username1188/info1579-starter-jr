@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>jeremy</title>
+    <title>Career Database</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -15,50 +15,32 @@
     </div>
 
     <div class="innerbody">
-      <h1>Welcome to JavaScript!</h1>
-
-      <h4>Joke of the day</h4>
-
-      <div id="jokeContainer"></div>
-
-      <h4>Quote of the day</h4>
-
-      <div id="quoteContainer"></div>
-
+      <h1>Welcome to the Career Database!</h1>
+      
       <!-- <div class="module-output" id="output"></div> -->
 
-      <label> Student Name: <input id="studentName" /> </label>
+      <label> Name: <input id="nameSearch" /> </label>
+
+      <label> Skills: <input id="skillSearch" /> </label>
+
+      <label> Languagues: <input id="languagueSearch" /> </label>
 
       <label>
-        Completed Modules:
-        <input id="completedModules" type="number" min="0" max="10" />
-      </label>
-
-      <label>
-        Study Day:
-
-        <select id="studyDay">
-          <option>Monday</option>
-
-          <option>Tuesday</option>
-
-          <option>Wednesday</option>
-
-          <option>Thursday</option>
-
-          <option>Friday</option>
-
-          <option>Saturday</option>
-
-          <option>Sunday</option>
+        Sort by:
+        <select id="sortInput">
+          <option>Alphabetical</option>
+          <option>Reverse</option>
+          <option>Skills desc</option>
+          <option>Skills asc</option>
         </select>
       </label>
 
-      <button id="generateButton">Generate</button>
+      <button id="searchButton">Search</button>
 
       <button id="resetButton">Reset</button>
 
       <div id="output"></div>
+
     </div>
 
     <footer>

@@ -1,39 +1,34 @@
-const jokeContainer = document.getElementById("jokeContainer");
-const quoteContainer = document.getElementById("quoteContainer");
-
-//joke
 export async function getJoke() {
-  const response = await fetch(
-    "https://official-joke-api.appspot.com/random_joke",
-  );
-  const data = await response.json();
-  return data;
+    jokeContainer.innerHTML = "loading joke...";
+
+    //site was down when testing, maybe its up? 
+    const url = "https://official-joke-api.appspot.com/random_joke";
+
+    await fetch(url).then(fufilled =>{
+        fufilled.json().then(joke =>{
+            jokeContainer.innerHTML = `
+            <p>${joke.setup}</p>
+            <p>${joke.punchline}</p>`;
+        });
+    }).catch(reject => {
+        jokeContainer.innerHTML = `Unable to load`;
+        console.log(reject);
+    });
+    
 }
 
-export async function displayJoke() {
-  try {
-    jokeContainer.innerHTML = "Loading joke...";
-    const joke = await getJoke();
-
-    jokeContainer.innerHTML = `
-      <p>${joke.setup}</p>
-      <p>${joke.punchline}</p>`;
-  } catch (error) {
-    jokeContainer.innerHTML = `Unable to load joke.`;
-  }
-}
-
-//quote
 export async function getQuote() {
-  const url = "https://dummyjson.com/quotes/random";
-  const response = await fetch(url);
-  const data = response.json();
-  return data;
-}
+    quoteContainer.innerHTML = "loading quote...";
 
-export async function displayQuote() {
-  quoteContainer.innerHTML = "Loading quote...";
-  const quote = await getQuote();
+    const url = "https://dummyjson.com/quotes/random";
 
-  quoteContainer.innerHTML = `${quote.quote}`;
+    await fetch(url).then(fufilled =>{
+        fufilled.json().then(quote =>{
+            quoteContainer.innerHTML = `${quote.quote}`;
+        });
+    }).catch(reject => {
+        quoteContainer.innerHTML = `Unable to load`;
+        console.log(reject);
+    });
+
 }
